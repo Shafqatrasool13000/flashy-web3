@@ -1,0 +1,48 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+    outline: none;
+    border: none;
+}
+
+
+p,h1,h2,h3,h4,h5,h6{
+  margin: 0;
+}
+body{
+  font-family: 'Oregano', sans-serif !important;
+}
+
+.offcanvas{
+  height: 100vh !important;
+  background-color: rgb(1, 1, 1) !important;
+  color: white !important;
+}
+img{
+  max-width: 100%;
+  height: auto;
+}
+@font-face {
+  font-family: "Oregano";
+  src: local("SFUIText-Regular"),
+      url("./assets/fonts/Oregano-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OreganoItalic";
+  src: local("SFUIText-Regular"),
+      url("./assets/fonts/Oregano-Italic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OpenSans";
+  src: local("SFUIText-Regular"),
+      url("./assets/fonts/OpenSans-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OpenSansBold";
+  src: local("SFUIText-Regular"),
+      url("./assets/fonts/OpenSans-Bold.ttf") format("truetype");
+}
+
