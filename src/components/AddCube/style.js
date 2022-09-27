@@ -86,6 +86,13 @@ border: 1px solid rgb(255,255,255,0.4);
 
 }
 
+.set-btn{
+background-color:rgb(58,62,91);
+&:hover{
+opacity: 0.5;
+}
+}
+
 `
 
 export const AddProtocol2Styled = styled.div`
@@ -145,6 +152,13 @@ border: 1px solid rgb(255,255,255,0.4);
 }
 }
 
+}
+
+.set-btn{
+background-color:rgb(58,62,91);
+&:hover{
+opacity: 0.5;
+}
 }
 
 `

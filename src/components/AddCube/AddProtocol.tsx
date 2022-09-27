@@ -1,3 +1,6 @@
+import { BigNumber } from "ethers";
+import { parseEther } from "ethers/lib/utils";
+import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import {
   FaArrowAltCircleLeft,
@@ -6,12 +9,27 @@ import {
   FaCaretDown,
   FaEthereum,
 } from "react-icons/fa";
+import { useEncode } from "../../hooks/useEncode";
+import { addresses } from "../../utils/constants";
 import { AddProtocolStyled } from "./style";
 
-const AddProtocol = ({name=null}:any) => {
+const AddProtocol = ({ name = null }: any) => {
+  const [amount, setAmount] = useState("");
+  const [convertedAmount, setConvertedAmount] = useState("");
+  const useEnode = useEncode();
+  const methodName = name.toLowerCase();
+   const encodeData=[];
+
+
+  const useEncodeHandler = () => {
+    const encode = useEnode(addresses.haaveAddress, 'flashLoan', [[addresses.haaveAddress],[parseEther(amount)],[BigNumber.from('1')],"0x"]);
+    console.log(encode);
+    // encodeData.push(encode)
+
+
+  };
 
   return (
-
     <AddProtocolStyled>
       <FaArrowAltCircleLeft className="back-icon" fontSize={26} />
       <div className="d-flex justify-content-center">
@@ -43,7 +61,13 @@ const AddProtocol = ({name=null}:any) => {
             </span>
           </Col>
           <Col md={8}>
-            <input  type="number" placeholder="Amount" className="w-100" />
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Amount"
+              className="w-100"
+            />
             <div className="d-flex justify-content-end mt-4">
               <button className="max-btn">Max</button>
             </div>
@@ -80,6 +104,9 @@ const AddProtocol = ({name=null}:any) => {
           <p className="fs-6 mb-0 mt-1">82.5%</p>
         </div>
       </div>
+      <button onClick={useEncodeHandler} className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0">
+        Set
+      </button>
     </AddProtocolStyled>
   );
 };

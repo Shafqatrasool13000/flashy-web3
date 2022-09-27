@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import {
   FaArrowAltCircleLeft,
@@ -10,6 +11,11 @@ import {
 import { AddProtocol2Styled } from "./style";
 
 const AddProtocol2 = ({name=null}:any) => {
+
+  const [amount, setAmount] = useState('');
+  const [convertedAmount, setConvertedAmount] = useState('');
+
+  console.log({amount});
 
   return (
 
@@ -45,7 +51,7 @@ const AddProtocol2 = ({name=null}:any) => {
             </span>
           </Col>
           <Col md={8}>
-            <input type="number" placeholder="Amount" className="w-100" />
+            <input type="number" placeholder="Amount" value={amount} onChange={(e)=>setAmount((e.target.value))} className="w-100" />
             <div className="d-flex justify-content-end mt-4">
               <button className="max-btn">Max</button>
             </div>
@@ -84,6 +90,7 @@ const AddProtocol2 = ({name=null}:any) => {
           <p className="mb-0 mt-1">- %</p>
         </div>
       </div>
+      <button className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0">Set</button>
     </AddProtocol2Styled>
   );
 };

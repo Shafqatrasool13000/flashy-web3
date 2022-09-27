@@ -8,6 +8,11 @@ import Create from "./layout/Create/Index";
 import Strategies from "./layout/Strategies/Index";
 import Opportunities from "./layout/Opportunities/Index";
 
+// Window.ethereum type
+declare var window: any
+export const ethereum = window.ethereum;
+
+
 function App() {
   return (
     <>
