@@ -1,9 +1,10 @@
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaArrowLeft } from "react-icons/fa";
 
-function AddCube({ addCubeModal, setAddCubeModal, children }: any) {
+function AddCube({ addCubeModal, setAddCubeModal, children,encodeData }: any) {
   
   return (
 
@@ -27,6 +28,7 @@ function AddCube({ addCubeModal, setAddCubeModal, children }: any) {
               />
             </Offcanvas.Title>
           </Offcanvas.Header>
+         
           <Offcanvas.Body>{children}</Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

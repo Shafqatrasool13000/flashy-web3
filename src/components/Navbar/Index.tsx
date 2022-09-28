@@ -6,7 +6,7 @@ import { NavbarStyled } from "./style";
 import { ConnectKitButton } from "connectkit";
 import { NavbarBrand } from "react-bootstrap";
 
-function BasicExample() {
+function Navbars() {
   return (
     <NavbarStyled>
       <Navbar bg="light" expand="lg">
@@ -15,8 +15,7 @@ function BasicExample() {
           <NavLink className="navbar-brand" to="/">
             Demo
           </NavLink>
-          <NavLink className="navbar-brand d-lg-none" to="/">
-            <ConnectKitButton />
+          <NavbarBrand className="navbar-brand d-lg-none">
             <ConnectKitButton.Custom>
               {({ isConnected, show, truncatedAddress, ensName }) => {
                 return (
@@ -28,7 +27,7 @@ function BasicExample() {
                 );
               }}
             </ConnectKitButton.Custom>
-          </NavLink>
+          </NavbarBrand>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mx-auto d-flex justify-content-between">
               <NavLink className="nav-link" to="/strategies">
@@ -61,4 +60,4 @@ function BasicExample() {
   );
 }
 
-export default BasicExample;
+export default Navbars;

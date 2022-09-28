@@ -15,7 +15,6 @@ const AddProtocol2 = ({name=null}:any) => {
   const [amount, setAmount] = useState('');
   const [convertedAmount, setConvertedAmount] = useState('');
 
-  console.log({amount});
 
   return (
 

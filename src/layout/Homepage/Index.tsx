@@ -16,7 +16,7 @@ const Index = () => {
       <ShowCase />
       <HowItWorks />
 
-      <button onClick={async () => await exactMock(addresses.haaveAddress, "")}>Exec Mock</button>
+      {/* <button onClick={async () => await exactMock(addresses.haaveAddress, "")}>Exec Mock</button> */}
     </>
   );
 };

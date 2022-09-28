@@ -8,11 +8,13 @@ import {
   ProxyMock,
 } from "../typechain";
 
-type Contracts = HAaveProtocolV2 
+type Contracts = HAaveProtocolV2;
 
-const useContract = (name: string):Contracts => {
-const signer = useSigner();
-  const [contract, setContract] = useState<Contracts>(loaders[name ?? "proxy"](signer));
+const useContract = (name: string): Contracts => {
+  const signer = useSigner();
+  const [contract, setContract] = useState<Contracts>(
+    loaders[name ?? "proxy"](signer)
+  );
   useMemo(() => {
     if (signer !== undefined) {
       setContract(loaders[name](signer));

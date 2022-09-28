@@ -1,6 +1,5 @@
-import { BigNumber } from "ethers";
 import { parseEther } from "ethers/lib/utils";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import {
   FaArrowAltCircleLeft,
@@ -10,24 +9,36 @@ import {
   FaEthereum,
 } from "react-icons/fa";
 import { useEncode } from "../../hooks/useEncode";
+import { useExecMock } from "../../hooks/useExecMock";
+import { ExchangerContext } from "../../layout/Create/Index";
 import { addresses } from "../../utils/constants";
 import { AddProtocolStyled } from "./style";
 
 const AddProtocol = ({ name = null }: any) => {
   const [amount, setAmount] = useState("");
-  const [convertedAmount, setConvertedAmount] = useState("");
-  const useEnode = useEncode();
+  // const [convertedAmount, setConvertedAmount] = useState("");
+
+  const encoder = useEncode();
   const methodName = name.toLowerCase();
-   const encodeData=[];
 
+  const {encodeData, setEncodeData}=useContext(ExchangerContext);
 
-  const useEncodeHandler = () => {
-    const encode = useEnode(addresses.haaveAddress, 'flashLoan', [[addresses.haaveAddress],[parseEther(amount)],[BigNumber.from('1')],"0x"]);
-    console.log(encode);
-    // encodeData.push(encode)
+  const exactMock=useExecMock();
+  
+  const useEncodeHandler = async() => {
+    
+    const encoded = encoder(addresses.haaveAddress, methodName, ['0x6B175474E89094C44Da98b954EedeAC495271d0F',parseEther(amount)]);
 
+    console.log(encoded);
 
+    if(!encodeData.includes(encoded)){
+      setEncodeData([...encodeData,encoded]);
+    }else{
+      const result=await exactMock(addresses.haaveAddress,encodeData[0]);
+      console.log('mock runner',result);
+    }
   };
+
 
   return (
     <AddProtocolStyled>
