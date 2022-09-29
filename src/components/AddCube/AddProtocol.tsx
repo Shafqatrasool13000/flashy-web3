@@ -12,14 +12,17 @@ import { useEncode } from "../../hooks/useEncode";
 import { useExecMock } from "../../hooks/useExecMock";
 import { ExchangerContext } from "../../layout/Create/Index";
 import { addresses } from "../../utils/constants";
+import SelectToken from "../SelectToken/Index";
 import { AddProtocolStyled } from "./style";
 
-const AddProtocol = ({ name = null }: any) => {
+const AddProtocol = ({ data }: any) => {
   const [amount, setAmount] = useState("");
+  const [showTokens, setShowTokens] = useState(false);
+  const [token, setToken] = useState("ETH");
   // const [convertedAmount, setConvertedAmount] = useState("");
 
   const encoder = useEncode();
-  const methodName = name.toLowerCase();
+  const methodName = data.name.toLowerCase();
 
   const {encodeData, setEncodeData}=useContext(ExchangerContext);
 
@@ -39,9 +42,8 @@ const AddProtocol = ({ name = null }: any) => {
     }
   };
 
-
   return (
-    <AddProtocolStyled>
+    <AddProtocolStyled className="position-relative">
       <FaArrowAltCircleLeft className="back-icon" fontSize={26} />
       <div className="d-flex justify-content-center">
         <h6 className="text-center">
@@ -50,22 +52,25 @@ const AddProtocol = ({ name = null }: any) => {
         </h6>
       </div>
       <div className="d-flex justify-content-center">
-        <button className="method-btn w-100 mt-3 fs-6">{name}</button>
+        <button className="method-btn w-100 mt-3 fs-6">{data.name}</button>
       </div>
       <div className="input-section mt-3">
         <Row className="align-items-center">
           <Col md={4}>
             <p className="input">Input</p>
             <div className="d-flex align-items-center">
-              <h6>
+              <h6 className="position-relative" onClick={()=>setShowTokens(!showTokens)}>
                 <span className="me-2">
                   <FaEthereum fontSize={22} />
                 </span>
-                ETH
+                {token}
                 <span>
-                  <FaCaretDown className="more-icon" fontSize={14} />
+                  <FaCaretDown className="more-icon" fontSize={14} onClick={()=>setShowTokens(!showTokens)}/>
                 </span>
               </h6>
+            </div>
+              <div className={`position-absolute ${showTokens ?'d-block':'d-none'}`}>
+              <SelectToken showTokens={showTokens} setShowTokens={setShowTokens} setToken={setToken} tokens={data.protocol_configs.tokenlist} />
             </div>
             <span className="input-text">
               <FaArrowDown />

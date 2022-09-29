@@ -1,6 +1,7 @@
 import "./App.css";
 import Homepage from "./layout/Homepage/Index";
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'antd/dist/antd.css';
 import Navbar from "./components/Navbar/Index";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Index";
