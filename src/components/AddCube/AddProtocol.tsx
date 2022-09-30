@@ -19,26 +19,34 @@ const AddProtocol = ({ data }: any) => {
   const [amount, setAmount] = useState("");
   const [showTokens, setShowTokens] = useState(false);
   const [token, setToken] = useState("ETH");
-  // const [convertedAmount, setConvertedAmount] = useState("");
 
+  console.log({ token, amount }, "amount & token");
   const encoder = useEncode();
   const methodName = data.name.toLowerCase();
 
-  const {encodeData, setEncodeData}=useContext(ExchangerContext);
+  const {
+    encodeData,
+    setEncodeData,
+    savedProtocols,
+    setSavedProtocols,
+    setExchageItems,
+  } = useContext(ExchangerContext);
 
-  const exactMock=useExecMock();
-  
-  const useEncodeHandler = async() => {
-    
-    const encoded = encoder(addresses.haaveAddress, methodName, ['0x6B175474E89094C44Da98b954EedeAC495271d0F',parseEther(amount)]);
+  const exactMock = useExecMock();
 
+  const useEncodeHandler = async () => {
+    const encoded = encoder(addresses.haaveAddress, methodName, [
+      "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+      parseEther(amount),
+    ]);
     console.log(encoded);
-
-    if(!encodeData.includes(encoded)){
-      setEncodeData([...encodeData,encoded]);
-    }else{
-      const result=await exactMock(addresses.haaveAddress,encodeData[0]);
-      console.log('mock runner',result);
+    setSavedProtocols([...savedProtocols, { amount, token, name: data.name }]);
+    setExchageItems([]);
+    if (!encodeData.includes(encoded)) {
+      setEncodeData([...encodeData, encoded]);
+    } else {
+      const result = await exactMock(addresses.haaveAddress, encodeData[0]);
+      console.log("mock runner", result);
     }
   };
 
@@ -57,20 +65,36 @@ const AddProtocol = ({ data }: any) => {
       <div className="input-section mt-3">
         <Row className="align-items-center">
           <Col md={4}>
-            <p className="input">Input</p>
+            <p className="input">input</p>
             <div className="d-flex align-items-center">
-              <h6 className="position-relative" onClick={()=>setShowTokens(!showTokens)}>
+              <h6
+                className="position-relative"
+                onClick={() => setShowTokens(!showTokens)}
+              >
                 <span className="me-2">
                   <FaEthereum fontSize={22} />
                 </span>
                 {token}
                 <span>
-                  <FaCaretDown className="more-icon" fontSize={14} onClick={()=>setShowTokens(!showTokens)}/>
+                  <FaCaretDown
+                    className="more-icon"
+                    fontSize={14}
+                    onClick={() => setShowTokens(!showTokens)}
+                  />
                 </span>
               </h6>
             </div>
-              <div className={`position-absolute ${showTokens ?'d-block':'d-none'}`}>
-              <SelectToken showTokens={showTokens} setShowTokens={setShowTokens} setToken={setToken} tokens={data.protocol_configs.tokenlist} />
+            <div
+              className={`position-absolute ${
+                showTokens ? "d-block" : "d-none"
+              }`}
+            >
+              <SelectToken
+                showTokens={showTokens}
+                setShowTokens={setShowTokens}
+                setToken={setToken}
+                tokens={data.protocol_configs.tokenlist}
+              />
             </div>
             <span className="input-text">
               <FaArrowDown />
@@ -120,7 +144,10 @@ const AddProtocol = ({ data }: any) => {
           <p className="fs-6 mb-0 mt-1">82.5%</p>
         </div>
       </div>
-      <button onClick={useEncodeHandler} className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0">
+      <button
+        onClick={useEncodeHandler}
+        className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0"
+      >
         Set
       </button>
     </AddProtocolStyled>

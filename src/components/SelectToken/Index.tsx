@@ -6,9 +6,6 @@ import { SelectTokenStyled } from "./style";
 const { Option } = Select;
 
 const Index: React.FC<any> = ({showTokens,setShowTokens,setToken,tokens}) => {
-  console.log({tokens})
-
-  console.log({showTokens})
 
   const handleChange = (value: string[]) => {
     setToken(value)
@@ -26,7 +23,6 @@ const Index: React.FC<any> = ({showTokens,setShowTokens,setToken,tokens}) => {
       optionLabelProp="label"
       onChange={handleChange}
       open={showTokens}
-      autoFocus={true}
       onSelect={()=>setShowTokens(!showTokens)}
     >
        {
@@ -39,8 +35,6 @@ const Index: React.FC<any> = ({showTokens,setShowTokens,setToken,tokens}) => {
         </div></Option>
         ))
       }
-      
-      
     </Select>
   </SelectTokenStyled>
 );

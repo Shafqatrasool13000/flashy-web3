@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import Create from "../../components/Create/Index";
 import { CreateLayoutStyled } from "./style";
@@ -8,81 +8,82 @@ import AddProtocol from "../../components/AddCube/AddProtocol";
 import { Col, Container, Row } from "react-bootstrap";
 import AddProtocol2 from "../../components/AddCube/AddProtocol2";
 import { Encode_Data, Exchange_Items } from "../../utils/types";
+import SavedProtocols from "../../components/SavedProtocol/SavedProtocols";
 
-export const ExchangerContext = createContext({} as Encode_Data);
+export const ExchangerContext = createContext<any>({} as Encode_Data);
 
 const Index = () => {
-  const [addCubeModal, setAddCubeModal] = React.useState(false);
-  const [exchangeItems, setExchageItems] = React.useState<any>([] );
+  const [addCubeModal, setAddCubeModal] = useState(false);
+  const [exchangeItems, setExchageItems] = useState<Exchange_Items>([]);
+  const [savedProtocols, setSavedProtocols] = useState<any>([]);
   const [encodeData, setEncodeData] = React.useState<string[]>([]);
 
+  console.log({ savedProtocols });
   const dragItem = useRef<number>(0);
   const dragOverItem = useRef<number>(0);
   const messagesEndRef = useRef<any>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
-    scrollToBottom()
+    scrollToBottom();
   }, [exchangeItems]);
 
   // Drag Start
-  
   const dragStart = (position: any) => {
     dragItem.current = position;
   };
 
   // In Dragging
-
   const dragEnter = (position: any) => {
     dragOverItem.current = position;
   };
 
   // Drop Dragged
-
   const drop = () => {
     const copyListItems = [...exchangeItems];
     const copyEncodeItems = [...encodeData];
 
-      const dragItemContent = copyListItems[dragItem.current];
-      const dragEncodeContent = copyEncodeItems[dragItem.current];
-  
-      copyListItems.splice(dragItem.current , 1);
-      copyEncodeItems.splice(dragItem?.current, 1);
-  
-      copyListItems.splice(dragOverItem.current, 0, dragItemContent);
-      copyEncodeItems.splice(dragOverItem.current, 0, dragEncodeContent);
-  
-      dragItem.current = 0;
-      dragOverItem.current = 0;
-  
-      setExchageItems(copyListItems);
-      setEncodeData(copyEncodeItems);
-   
+    const dragItemContent = copyListItems[dragItem.current];
+    const dragEncodeContent = copyEncodeItems[dragItem.current];
+
+    copyListItems.splice(dragItem.current, 1);
+    copyEncodeItems.splice(dragItem?.current, 1);
+
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent);
+    copyEncodeItems.splice(dragOverItem.current, 0, dragEncodeContent);
+
+    dragItem.current = 0;
+    dragOverItem.current = 0;
+
+    setExchageItems(copyListItems);
+    setEncodeData(copyEncodeItems);
   };
 
   const getExchangeBox = (data: any) => {
     const nameConversion = data.name.toLowerCase();
     console.log(nameConversion.includes("swap"));
     if (nameConversion.includes("swap")) {
-      setExchageItems([
-        ...exchangeItems,
-        { Component: AddProtocol2, data },
-      ]);
+      setExchageItems([...exchangeItems, { Component: AddProtocol2, data }]);
       setAddCubeModal(false);
     } else {
-      setExchageItems([
-        ...exchangeItems,
-        { Component: AddProtocol, data },
-      ]);
+      setExchageItems([...exchangeItems, { Component: AddProtocol, data }]);
       setAddCubeModal(false);
     }
   };
 
   return (
-    <ExchangerContext.Provider value={{ encodeData, setEncodeData }}>
+    <ExchangerContext.Provider
+      value={{
+        encodeData,
+        setEncodeData,
+        savedProtocols,
+        setSavedProtocols,
+        setExchageItems,
+      }}
+    >
       <CreateLayoutStyled>
         <Container>
           <Row>
@@ -90,6 +91,7 @@ const Index = () => {
               <Create />
             </Col>
             <Col md={6} className="right-0 mt-3 protocol-section">
+              <SavedProtocols savedProtocols={savedProtocols} />
               {exchangeItems?.map(({ Component, data }: any, index: any) => (
                 <div
                   key={index}
@@ -108,18 +110,25 @@ const Index = () => {
               <div className="icon-container">
                 <FaPlus
                   className={`plus-icon bottom-icon ${
-                    exchangeItems.length ? "d-block" : "d-none"
+                    exchangeItems.length || savedProtocols.length
+                      ? "d-block"
+                      : "d-none"
                   }`}
                   color="white"
-                  onClick={() => setAddCubeModal(!addCubeModal)}
+                  onClick={() => {
+                    setAddCubeModal(!addCubeModal);
+                    setExchageItems([]);
+                  }}
                   fontSize={26}
                 />
                 <FaPlus
                   className={`plus-icon top-icon ${
-                    exchangeItems.length && "d-none"
+                    (exchangeItems.length || savedProtocols.length) && "d-none"
                   }`}
                   color="white"
-                  onClick={() => setAddCubeModal(!addCubeModal)}
+                  onClick={() => {
+                    setAddCubeModal(!addCubeModal);
+                  }}
                   fontSize={26}
                 />
               </div>

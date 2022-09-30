@@ -5,8 +5,7 @@ import HeadBar from "./HeadBar";
 import { protocolsData } from "./ProtocolsData";
 import { CubeBodyStyled } from "./style";
 
-const CubeBody:React.FC<any> = ({getExchangeBox}) => {
-
+const CubeBody: React.FC<CubeBodyProps> = ({ getExchangeBox }) => {
   return (
     <CubeBodyStyled>
       <Container>
@@ -18,7 +17,11 @@ const CubeBody:React.FC<any> = ({getExchangeBox}) => {
               <Row key={index} className="method">
                 {exchanger.map((data, index) => (
                   <Col key={index} sm={6} md={3}>
-                    <button onClick={()=>getExchangeBox(data)} key={index} className="method-btn w-100 mt-3">
+                    <button
+                      onClick={() => getExchangeBox(data)}
+                      key={index}
+                      className="method-btn w-100 mt-3"
+                    >
                       {data.name}
                     </button>
                   </Col>

@@ -5,17 +5,27 @@ const uniswap = ["Swap Token", "Add Liquidity", "Remove Liquidity"];
 const avaeV2 = [
   {
     name: "Deposit",
-    signature: () => console.log(""),
+    signature: "",
     description: "",
-    tag: "",
+    tag: [],
     protocolName: "",
     protocolLogo: "",
-     function_configs: {
-      inputs: [], 
+    function_configs: {
+      inputs: ["token","amount"],
       outputs: [],
     },
     protocol_configs: {
-      tokenlist: ['AAVE','AMPL','BAL','BAT','BUSD','BAI','CRV','CEl','CTG'],
+      tokenlist: [
+        "AAVE",
+        "AMPL",
+        "BAL",
+        "BAT",
+        "BUSD",
+        "BAI",
+        "CRV",
+        "CEl",
+        "CTG",
+      ],
       fee: 12,
       prices: 12,
     },
@@ -23,7 +33,7 @@ const avaeV2 = [
       name: "",
       pool_address: "",
       pool_apy: "",
-    }
+    },
   },
   {
     name: "Widthdraw",
@@ -54,7 +64,7 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
-     function_configs: {
+    function_configs: {
       inputs: [],
       outputs: [],
     },
@@ -67,7 +77,7 @@ const avaeV2 = [
       name: "",
       pool_address: "",
       pool_apy: "",
-    }
+    },
   },
   {
     name: "Repay",
@@ -76,7 +86,7 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
-     function_configs: {
+    function_configs: {
       inputs: [],
       outputs: [],
     },
@@ -89,7 +99,7 @@ const avaeV2 = [
       name: "",
       pool_address: "",
       pool_apy: "",
-    }
+    },
   },
   {
     name: "Flashloan",
@@ -98,7 +108,7 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
-     function_configs: {
+    function_configs: {
       inputs: [],
       outputs: [],
     },
@@ -111,7 +121,7 @@ const avaeV2 = [
       name: "",
       pool_address: "",
       pool_apy: "",
-    }
+    },
   },
 ];
 const sushiswap = ["Swap Token", "Add Liquidty", "Remove Liquidity"];

@@ -6,18 +6,15 @@ import {
   FaArrowUp,
   FaCannabis,
   FaCaretDown,
-  FaEthereum,
+  FaEthereum
 } from "react-icons/fa";
 import { AddProtocol2Styled } from "./style";
 
-const AddProtocol2 = ({name=null}:any) => {
-
-  const [amount, setAmount] = useState('');
-  const [convertedAmount, setConvertedAmount] = useState('');
-
+const AddProtocol2 = ({ name = null }: any) => {
+  const [amount, setAmount] = useState("");
+  const [convertedAmount, setConvertedAmount] = useState("");
 
   return (
-
     <AddProtocol2Styled>
       <FaArrowAltCircleLeft className="back-icon" fontSize={26} />
       <div className="d-flex justify-content-center">
@@ -46,11 +43,17 @@ const AddProtocol2 = ({name=null}:any) => {
             </div>
             <span className="d-flex">
               <FaArrowDown />
-              <FaArrowUp/>
+              <FaArrowUp />
             </span>
           </Col>
           <Col md={8}>
-            <input type="number" placeholder="Amount" value={amount} onChange={(e)=>setAmount((e.target.value))} className="w-100" />
+            <input
+              type="number"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-100"
+            />
             <div className="d-flex justify-content-end mt-4">
               <button className="max-btn">Max</button>
             </div>
@@ -58,7 +61,7 @@ const AddProtocol2 = ({name=null}:any) => {
         </Row>
       </div>
       <div className="output-section mt-3">
-      <Row className="align-items-center">
+        <Row className="align-items-center">
           <Col md={4}>
             <p className="input fs-5">Output</p>
             <div className="d-flex align-items-center">
@@ -72,7 +75,6 @@ const AddProtocol2 = ({name=null}:any) => {
                 </span>
               </h6>
             </div>
-           
           </Col>
           <Col md={8}>
             <input type="number" placeholder="Amount" className="w-100" />
@@ -89,7 +91,9 @@ const AddProtocol2 = ({name=null}:any) => {
           <p className="mb-0 mt-1">- %</p>
         </div>
       </div>
-      <button className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0">Set</button>
+      <button className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0">
+        Set
+      </button>
     </AddProtocol2Styled>
   );
 };
