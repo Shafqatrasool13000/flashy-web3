@@ -1,5 +1,5 @@
 import { parseEther } from "ethers/lib/utils";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import {
   FaArrowAltCircleLeft,
@@ -16,13 +16,53 @@ import SelectToken from "../SelectToken/Index";
 import { AddProtocolStyled } from "./style";
 
 const AddProtocol = ({ data }: any) => {
-  const [amount, setAmount] = useState("");
-  const [showTokens, setShowTokens] = useState(false);
-  const [token, setToken] = useState("ETH");
+  const [inputsData, setInputsData] = useState<any>([]);
+  const [tokensIndex, setTokensIndex] = useState(false);
 
-  console.log({ token, amount }, "amount & token");
+  // Open and Close DropDown
+
+  const refs = useRef<any>([]);
+
+  const handleFormChange = (index: number, event: any) => {
+    console.log(event.target.value, "value in form change");
+    let data = [...inputsData];
+    data[index][event.target.name] = event.target.value;
+    setInputsData(data);
+  };
+
+  const handleTokensToggle = (index: number) => {
+    let data = [...inputsData];
+    setTokensIndex((oldIndex) => !oldIndex);
+    data[index].showTokens = !data[index].showTokens;
+    data.map(({ showTokens }, index) => (refs.current[index] = showTokens));
+    setInputsData(data);
+  };
+  // console.log({inputsData})
+
+  const checkIfClickedOutside = () => {
+    let data = [...inputsData];
+    const showTokensIndex = data.findIndex((data) => data.showTokens === true);
+    if (showTokensIndex !== -1) {
+      data[showTokensIndex].showTokens = !data[showTokensIndex].showTokens;
+      setInputsData(data)
+    }
+  };
+
+  document.addEventListener("mousedown", checkIfClickedOutside);
+
+  useEffect(() => {
+    setInputsData(data.function_configs.inputs);
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [data]);
+
   const encoder = useEncode();
   const methodName = data.name.toLowerCase();
+
+  // useEffect(() => {
+
+  // }, []);
 
   const {
     encodeData,
@@ -34,19 +74,23 @@ const AddProtocol = ({ data }: any) => {
 
   const exactMock = useExecMock();
 
+  const showResult = () => {
+    console.log({ inputsData });
+  };
+
   const useEncodeHandler = async () => {
     const encoded = encoder(addresses.haaveAddress, methodName, [
       "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-      parseEther(amount),
+      parseEther(""),
     ]);
-    console.log(encoded);
-    setSavedProtocols([...savedProtocols, { amount, token, name: data.name }]);
+    // console.log(encoded);
+    // setSavedProtocols([...savedProtocols, { amount, token, name: data.name }]);
     setExchageItems([]);
     if (!encodeData.includes(encoded)) {
       setEncodeData([...encodeData, encoded]);
     } else {
       const result = await exactMock(addresses.haaveAddress, encodeData[0]);
-      console.log("mock runner", result);
+      // console.log("mock runner", result);
     }
   };
 
@@ -62,58 +106,66 @@ const AddProtocol = ({ data }: any) => {
       <div className="d-flex justify-content-center">
         <button className="method-btn w-100 mt-3 fs-6">{data.name}</button>
       </div>
-      <div className="input-section mt-3">
-        <Row className="align-items-center">
-          <Col md={4}>
-            <p className="input">input</p>
-            <div className="d-flex align-items-center">
-              <h6
-                className="position-relative"
-                onClick={() => setShowTokens(!showTokens)}
-              >
-                <span className="me-2">
-                  <FaEthereum fontSize={22} />
-                </span>
-                {token}
-                <span>
-                  <FaCaretDown
-                    className="more-icon"
-                    fontSize={14}
-                    onClick={() => setShowTokens(!showTokens)}
+      {data.function_configs.inputs.map(
+        ({ token, amount, showTokens }: any, index: number) => (
+          <div key={index} className="input-section mt-3">
+            <Row className="align-items-center">
+              <Col md={4}>
+                <p className="input">input</p>
+                <div className="d-flex align-items-center">
+                  <h6 className="position-relative">
+                    <span className="me-2">
+                      <FaEthereum fontSize={22} />
+                    </span>
+                    {!token ? "AAVE" : token}
+                    <span>
+                      <FaCaretDown
+                        className="more-icon"
+                        fontSize={14}
+                        onClick={() => {
+                          handleTokensToggle(index);
+                        }}
+                      />
+                    </span>
+                  </h6>
+                </div>
+                <div
+                  ref={() => {
+                    refs.current[index] = showTokens;
+                  }}
+                  className={`position-absolute ${
+                    showTokens ? "d-block" : "d-none"
+                  }`}
+                >
+                  <SelectToken
+                    showTokens={showTokens}
+                    tokens={data.protocol_configs.tokenlist}
+                    handleFormChange={handleFormChange}
+                    index={index}
+                    handleTokensToggle={handleTokensToggle}
                   />
+                </div>
+                <span className="input-text">
+                  <FaArrowDown />
                 </span>
-              </h6>
-            </div>
-            <div
-              className={`position-absolute ${
-                showTokens ? "d-block" : "d-none"
-              }`}
-            >
-              <SelectToken
-                showTokens={showTokens}
-                setShowTokens={setShowTokens}
-                setToken={setToken}
-                tokens={data.protocol_configs.tokenlist}
-              />
-            </div>
-            <span className="input-text">
-              <FaArrowDown />
-            </span>
-          </Col>
-          <Col md={8}>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="Amount"
-              className="w-100"
-            />
-            <div className="d-flex justify-content-end mt-4">
-              <button className="max-btn">Max</button>
-            </div>
-          </Col>
-        </Row>
-      </div>
+              </Col>
+              <Col md={8}>
+                <input
+                  type="number"
+                  name="amount"
+                  onChange={(e) => handleFormChange(index, e)}
+                  placeholder="Amount"
+                  className="w-100"
+                />
+                <div className="d-flex justify-content-end mt-4">
+                  <button className="max-btn">Max</button>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        )
+      )}
+
       <div className="output-section mt-3">
         <Row className="align-items-center">
           <Col md={4}>
@@ -145,7 +197,7 @@ const AddProtocol = ({ data }: any) => {
         </div>
       </div>
       <button
-        onClick={useEncodeHandler}
+        onClick={showResult}
         className="set-btn w-100 mt-3 rounded py-2 fs-5 fw-bold text-light border-0"
       >
         Set

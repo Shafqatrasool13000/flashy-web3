@@ -2,6 +2,42 @@ const furocomb = ["Unstake Token", "Claim COMBO"];
 const paraswap = ["Swap Token"];
 const uniswap = ["Swap Token", "Add Liquidity", "Remove Liquidity"];
 // const avaeV2 = ["", "Widthdraw", "Borrow", "Repay", "Flashloan"];
+
+const sushiswap = ["Swap Token", "Add Liquidty", "Remove Liquidity"];
+const curve = [
+  "Swap USD",
+  "Swap BTC",
+  "Swap ETH",
+  "Swap Crypto",
+  "Swap Other",
+  "Add Liquidity",
+  "Remove Liquidity",
+  "Stake Token",
+  "Unstake",
+  "Claim CRV",
+];
+
+const yearn = ["Deposit Vault", "Withdraw Vault"];
+const compound = ["Supply", "Withdraw", "Repay", "Collect COMP"];
+const maker = ["New Vault", "Deposit", "Widthdraw", "Generate", "Pay Back"];
+const firstInch = ["Swap Token"];
+const uniswapV3 = ["Swap Token"];
+const bProtocol = ["New Vault", "Deposit", "Withdraw", "Generate", "Pay Back"];
+const synthetix = [
+  "Stake Token",
+  "Claim Rewards",
+  "Unstake Token",
+  "Claim & Unstake",
+];
+
+const utility = [
+  "Send Token",
+  "WETH",
+  "Add Funds",
+  "Return Funds",
+  "Token Bridge",
+];
+
 const avaeV2 = [
   {
     name: "Deposit",
@@ -11,7 +47,18 @@ const avaeV2 = [
     protocolName: "",
     protocolLogo: "",
     function_configs: {
-      inputs: ["token","amount"],
+      inputs: [
+        {
+          token: "",
+          amount: "",
+          showTokens: false,
+        },
+        {
+          token: "",
+          amount: "",
+          showTokens: false,
+        },
+      ],
       outputs: [],
     },
     protocol_configs: {
@@ -43,11 +90,27 @@ const avaeV2 = [
     protocolName: "",
     protocolLogo: "",
     function_configs: {
-      inputs: [],
+      inputs: [
+        {
+          token: "",
+          amount: "",
+          showTokens: false,
+        },
+        {
+          token: "",
+          amount: "",
+          showTokens: false,
+        },
+        {
+          token: "",
+          amount: "",
+          showTokens: false,
+        },
+      ],
       outputs: [],
     },
     protocol_configs: {
-      tokenlist: [],
+      tokenlist: ["AAVE", "AMPL", "BAL"],
       fee: 12,
       prices: 12,
     },
@@ -124,41 +187,6 @@ const avaeV2 = [
     },
   },
 ];
-const sushiswap = ["Swap Token", "Add Liquidty", "Remove Liquidity"];
-const curve = [
-  "Swap USD",
-  "Swap BTC",
-  "Swap ETH",
-  "Swap Crypto",
-  "Swap Other",
-  "Add Liquidity",
-  "Remove Liquidity",
-  "Stake Token",
-  "Unstake",
-  "Claim CRV",
-];
-
-const yearn = ["Deposit Vault", "Withdraw Vault"];
-const compound = ["Supply", "Withdraw", "Repay", "Collect COMP"];
-const maker = ["New Vault", "Deposit", "Widthdraw", "Generate", "Pay Back"];
-const firstInch = ["Swap Token"];
-const uniswapV3 = ["Swap Token"];
-const bProtocol = ["New Vault", "Deposit", "Withdraw", "Generate", "Pay Back"];
-const synthetix = [
-  "Stake Token",
-  "Claim Rewards",
-  "Unstake Token",
-  "Claim & Unstake",
-];
-
-const utility = [
-  "Send Token",
-  "WETH",
-  "Add Funds",
-  "Return Funds",
-  "Token Bridge",
-];
-
 export const protocolsData = [
   //   {
   //     title: "Furucombo",
