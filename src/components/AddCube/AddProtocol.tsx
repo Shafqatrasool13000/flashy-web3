@@ -1,5 +1,5 @@
 import { parseEther } from "ethers/lib/utils";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import {
   FaArrowAltCircleLeft,
@@ -17,12 +17,6 @@ import { AddProtocolStyled } from "./style";
 
 const AddProtocol = ({ data }: any) => {
   const [inputsData, setInputsData] = useState<any>([]);
-  const [tokensIndex, setTokensIndex] = useState(false);
-
-  // Open and Close DropDown
-
-  const refs = useRef<any>([]);
-
   const handleFormChange = (index: number, event: any) => {
     console.log(event.target.value, "value in form change");
     let data = [...inputsData];
@@ -32,37 +26,16 @@ const AddProtocol = ({ data }: any) => {
 
   const handleTokensToggle = (index: number) => {
     let data = [...inputsData];
-    setTokensIndex((oldIndex) => !oldIndex);
     data[index].showTokens = !data[index].showTokens;
-    data.map(({ showTokens }, index) => (refs.current[index] = showTokens));
     setInputsData(data);
   };
-  // console.log({inputsData})
-
-  const checkIfClickedOutside = () => {
-    let data = [...inputsData];
-    const showTokensIndex = data.findIndex((data) => data.showTokens === true);
-    if (showTokensIndex !== -1) {
-      data[showTokensIndex].showTokens = !data[showTokensIndex].showTokens;
-      setInputsData(data)
-    }
-  };
-
-  document.addEventListener("mousedown", checkIfClickedOutside);
 
   useEffect(() => {
     setInputsData(data.function_configs.inputs);
-    return () => {
-      document.removeEventListener("mousedown", checkIfClickedOutside);
-    };
   }, [data]);
 
   const encoder = useEncode();
   const methodName = data.name.toLowerCase();
-
-  // useEffect(() => {
-
-  // }, []);
 
   const {
     encodeData,
@@ -130,9 +103,6 @@ const AddProtocol = ({ data }: any) => {
                   </h6>
                 </div>
                 <div
-                  ref={() => {
-                    refs.current[index] = showTokens;
-                  }}
                   className={`position-absolute ${
                     showTokens ? "d-block" : "d-none"
                   }`}

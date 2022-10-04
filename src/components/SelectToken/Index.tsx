@@ -1,5 +1,5 @@
 import { Select } from "antd";
-import React from "react";
+import React, { useCallback } from "react";
 import { FaEthereum } from "react-icons/fa";
 import { SelectTokenStyled } from "./style";
 
@@ -10,24 +10,30 @@ const Index: React.FC<any> = ({
   handleTokensToggle,
   tokens,
   handleFormChange,
-  index
+  index,
 }) => {
-
- 
+  const tokenInput = useCallback((inputElement: any) => {
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, []);
 
   return (
     <SelectTokenStyled>
       <Select
+        ref={tokenInput}
         showSearch
         style={{ width: 410 }}
         placeholder="Select Token"
         defaultValue={["AAVE"]}
         optionFilterProp="children"
         optionLabelProp="label"
-        onFocus={()=>console.log('focused select')}
-        onChange={(value) =>handleFormChange(index, { target: { value, name: "token" } })
-        }
+        onBlur={() => handleTokensToggle(index)}
         open={showTokens}
+        onChange={(value) =>
+          handleFormChange(index, { target: { value, name: "token" } })
+        }
+        autoFocus={showTokens}
         onSelect={() => handleTokensToggle(index)}
       >
         {tokens.map((tokenName: any, index: number) => (
