@@ -52,26 +52,62 @@ const avaeV2 = [
           token: "",
           amount: "",
           showTokens: false,
-        },
-        {
-          token: "",
-          amount: "",
-          showTokens: false,
-        },
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "cryptocurrency:zrx",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "cryptocurrency:zilla",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "cryptocurrency:zil",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "cryptocurrency:xas",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
+        }
       ],
       outputs: [],
     },
     protocol_configs: {
       tokenlist: [
-        "AAVE",
-        "AMPL",
-        "BAL",
-        "BAT",
-        "BUSD",
-        "BAI",
-        "CRV",
-        "CEl",
-        "CTG",
+        {
+          symbol: "AAVE",
+          icon: "",
+          address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          decimal: 10,
+        },
+        {
+          symbol: "AMPL",
+          icon: "",
+          address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          decimal: 7,
+        },
+        {
+          symbol: "BAL",
+          icon: "",
+          address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          decimal: 14,
+        },
+        {
+          symbol: "BAT",
+          icon: "",
+          address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+          decimal: 12,
+        },
       ],
       fee: 12,
       prices: 12,
@@ -83,7 +119,7 @@ const avaeV2 = [
     },
   },
   {
-    name: "Widthdraw",
+    name: "Withdraw",
     signature: "",
     description: "",
     tag: "",
@@ -95,16 +131,32 @@ const avaeV2 = [
           token: "",
           amount: "",
           showTokens: false,
-        },
-        {
-          token: "",
-          amount: "",
-          showTokens: false,
-        },
-        {
-          token: "",
-          amount: "",
-          showTokens: false,
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
         },
       ],
       outputs: [],
@@ -127,8 +179,41 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
+    rateMode:true,
     function_configs: {
-      inputs: [],
+
+      inputs: [
+        {
+          token: "",
+          amount: "",
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
+        },
+      ],
       outputs: [],
     },
     protocol_configs: {
@@ -149,11 +234,47 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
+    onBehalfOf:true,
+    rateMode:true,
     function_configs: {
-      inputs: [],
+      inputs: [
+        {
+          token: "",
+          amount: "",
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
+        },
+      ],
       outputs: [],
     },
+
     protocol_configs: {
+
+      
       tokenlist: [],
       fee: 12,
       prices: 12,
@@ -171,8 +292,40 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
+    isFlashloan:true,
     function_configs: {
-      inputs: [],
+      inputs: [
+        {
+          token: "",
+          amount: "",
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
+        },
+      ],
       outputs: [],
     },
     protocol_configs: {

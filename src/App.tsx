@@ -1,7 +1,7 @@
 import "./App.css";
 import Homepage from "./layout/Homepage/Index";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 import Navbar from "./components/Navbar/Index";
 import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Index";
@@ -9,11 +9,9 @@ import Create from "./layout/Create/Index";
 import Strategies from "./layout/Strategies/Index";
 import Opportunities from "./layout/Opportunities/Index";
 
-
 // Window.ethereum type
-declare var window: any
+declare var window: any;
 export const ethereum = window.ethereum;
-
 
 function App() {
   return (

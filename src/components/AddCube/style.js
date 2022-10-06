@@ -8,6 +8,8 @@ export const CubeBodyStyled=styled.div`
 text-align: center;
 font-size: 16px;
 }
+
+
 }
 
 .method{
@@ -54,21 +56,28 @@ background: rgb(255,255,255,0.4);
 border: 1px solid rgb(255,255,255,0.4);
 }
 }
-
-.input-section{
 input{
 border: none;
 background: transparent;
 text-align: end;
 border-bottom: .5px solid rgb(255,255,255,0.3);
 color: white;
-font-size: 22px;
+font-size: 20px;
 
 &::placeholder{
 font-size: 22px;
 letter-spacing: 1px;
 }
 }
+label{
+font-size: 16px;
+}
+.meta-address{
+text-align: start;
+
+}
+.input-section{
+
 
 .max-btn{
 font-size: 14px;
@@ -93,6 +102,20 @@ opacity: 0.5;
 }
 }
 
+`
+
+export const RateModeStyled=styled.div`
+display: flex;
+justify-content: flex-end;
+margin-top: 16px;
+.ant-switch-checked{
+background-color: rgb(58,62,91);
+border: 1px solid rgb(38,105,245);
+}
+.ant-switch-inner{
+width: 80px;
+font-size: 16px;
+}
 `
 
 export const AddProtocol2Styled = styled.div`

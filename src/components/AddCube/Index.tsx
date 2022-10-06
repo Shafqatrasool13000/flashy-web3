@@ -26,7 +26,6 @@ function AddCube({ addCubeModal, setAddCubeModal, children}: any) {
               />
             </Offcanvas.Title>
           </Offcanvas.Header>
-
           <Offcanvas.Body>{children}</Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

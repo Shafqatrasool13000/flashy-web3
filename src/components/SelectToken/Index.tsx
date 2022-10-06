@@ -1,6 +1,6 @@
 import { Select } from "antd";
-import React, { useCallback } from "react";
-import { FaEthereum } from "react-icons/fa";
+import React, { useEffect, useRef } from "react";
+import { Icon } from "@iconify/react";
 import { SelectTokenStyled } from "./style";
 
 const { Option } = Select;
@@ -11,21 +11,26 @@ const Index: React.FC<any> = ({
   tokens,
   handleFormChange,
   index,
+  defaultToken,
 }) => {
-  const tokenInput = useCallback((inputElement: any) => {
-    if (inputElement) {
-      inputElement.focus();
-    }
-  }, []);
+  const inputElement = useRef<any>();
+
+  useEffect(() => {
+    inputElement.current.focus();
+  }, [showTokens]);
+
+  const tokenInputRemove = () => {
+    inputElement.current.blur();
+  };
 
   return (
     <SelectTokenStyled>
       <Select
-        ref={tokenInput}
+        ref={inputElement}
         showSearch
         style={{ width: 410 }}
         placeholder="Select Token"
-        defaultValue={["AAVE"]}
+        defaultValue={["AAVE"] || [defaultToken]}
         optionFilterProp="children"
         optionLabelProp="label"
         onBlur={() => handleTokensToggle(index)}
@@ -33,15 +38,13 @@ const Index: React.FC<any> = ({
         onChange={(value) =>
           handleFormChange(index, { target: { value, name: "token" } })
         }
-        autoFocus={showTokens}
-        onSelect={() => handleTokensToggle(index)}
+        onSelect={() => tokenInputRemove()}
       >
-        {tokens.map((tokenName: any, index: number) => (
-          <Option key={index} value={tokenName}>
+        {tokens.map(({ symbol, icon }: any, index: number) => (
+          <Option key={index} value={symbol}>
             <div className="demo-option-label-item">
-              <span>
-                <FaEthereum fontSize={24} /> {tokenName}
-              </span>
+              <Icon icon={icon} width="26" height="26" color="black" />
+              <span className="ms-2">{symbol}</span>
             </div>
           </Option>
         ))}

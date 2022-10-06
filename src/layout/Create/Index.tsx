@@ -91,7 +91,7 @@ const Index = () => {
               <Create />
             </Col>
             <Col md={6} className="right-0 mt-3 protocol-section">
-              <SavedProtocols savedProtocols={savedProtocols} />
+              <SavedProtocols />
               {exchangeItems?.map(({ Component, data }: any, index: any) => (
                 <div
                   key={index}
@@ -136,7 +136,7 @@ const Index = () => {
           </Row>
         </Container>
         <AddCube addCubeModal={addCubeModal} setAddCubeModal={setAddCubeModal}>
-          <CubeBody getExchangeBox={getExchangeBox} />
+        <CubeBody getExchangeBox={getExchangeBox} />
         </AddCube>
       </CreateLayoutStyled>
     </ExchangerContext.Provider>
