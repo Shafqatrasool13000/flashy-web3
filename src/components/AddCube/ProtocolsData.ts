@@ -49,7 +49,69 @@ const avaeV2 = [
     function_configs: {
       inputs: [
         {
-          token: "",
+          token: "AAVE",
+          amount: "",
+          showTokens: false,
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "cryptocurrency:zrx",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "cryptocurrency:zilla",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "cryptocurrency:zil",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "cryptocurrency:xas",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
+        },
+        {
+          token: "AAVE",
+          amount: "",
+          showTokens: false,
+          tokenList: [
+            {
+              symbol: "AAVE",
+              icon: "cryptocurrency:zrx",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 10,
+            },
+            {
+              symbol: "AMPL",
+              icon: "cryptocurrency:zilla",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 7,
+            },
+            {
+              symbol: "BAL",
+              icon: "cryptocurrency:zil",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 14,
+            },
+            {
+              symbol: "BAT",
+              icon: "cryptocurrency:xas",
+              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              decimal: 12,
+            },
+          ],
+        },
+        {
+          token: "AAVE",
           amount: "",
           showTokens: false,
           tokenList: [

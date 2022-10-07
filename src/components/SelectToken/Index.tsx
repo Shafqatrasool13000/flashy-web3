@@ -11,6 +11,8 @@ const Index: React.FC<any> = ({
   tokens,
   handleFormChange,
   index,
+  name,
+  formik,
   defaultToken,
 }) => {
   const inputElement = useRef<any>();
@@ -35,9 +37,10 @@ const Index: React.FC<any> = ({
         optionLabelProp="label"
         onBlur={() => handleTokensToggle(index)}
         open={showTokens}
-        onChange={(value) =>
-          handleFormChange(index, { target: { value, name: "token" } })
-        }
+        onChange={(value) => {
+          handleFormChange(index, { target: { value, name: "token" } });
+          formik.setFieldValue(name, value);
+        }}
         onSelect={() => tokenInputRemove()}
       >
         {tokens.map(({ symbol, icon }: any, index: number) => (

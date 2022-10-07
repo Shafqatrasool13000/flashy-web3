@@ -10,15 +10,15 @@ import {
 import { useEncode } from "../../hooks/useEncode";
 // import { useExecMock } from "../../hooks/useExecMock";
 import { ExchangerContext } from "../../layout/Create/Index";
-import { addresses } from "../../utils/constants";
 import SelectToken from "../SelectToken/Index";
 import { AddProtocolStyled, RateModeStyled } from "./style";
 import { v4 as uuid } from "uuid";
-import { BigNumber } from "ethers";
 import { Switch } from "antd";
 import { useAccount } from "wagmi";
 import { Icon } from "@iconify/react";
-import { Field, Form, Formik } from "formik";
+import { useFormik, FormikProvider, Form } from "formik";
+import * as Yup from "yup";
+import InputField from "../InputField/InputField";
 
 const AddProtocol = ({ data }: any) => {
   const [protocolData, setProtocolData] = useState<any>([]);
@@ -28,6 +28,71 @@ const AddProtocol = ({ data }: any) => {
   const unique_id = uuid();
   console.log({ data });
 
+  // Create All Inputs Intial Values
+  const initalValuesData = data?.function_configs?.inputs?.map(
+    ({ token: tokens, amount: amounts }: any, index: number) => {
+      const token: string = `${"token" + [index]}`;
+      const amount: string = `${"amount" + [index]}`;
+      return { [token]: tokens, [amount]: amounts };
+    }
+  );
+
+  // Formik Section
+  const initialValues: any = Object.assign({}, ...initalValuesData);
+  const validationSchema = Yup.object({
+    token: Yup.string().required(),
+    amount: Yup.string().required(),
+  });
+
+  // OnSubmitHandler
+  console.log(protocolData,'protocols data');
+
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+    console.log("submit");
+    const savedData = {
+      protocol_id: unique_id,
+      name: data.name,
+      data: protocolData,
+    };
+    console.log({ savedData });
+    setSavedProtocols([...savedProtocols, savedData]);
+    setExchageItems([]);
+
+
+    // Saved Encoded Data
+
+    // const protcoloData = [
+    //   ...inputsData
+    //     .map(({ amount, token, tokenList }: any) => {
+    //       const selectedToken = tokenList.find(
+    //         ({ symbol }: any) => symbol === token
+    //       );
+    //       const selectedAdress = selectedToken.address;
+    //       const amount256 = BigNumber.from(amount).mul(
+    //         BigNumber.from(10).pow(selectedToken.decimal)
+    //       );
+    //       return [selectedAdress, amount256];
+    //     })
+    //     .flat(),
+    // ];
+
+    // if (data.rateMode) {
+    //   protcoloData.push(rateMode);
+    // }
+
+    // const encoded = encoder(addresses.haaveAddress, methodName, protcoloData);
+
+    // setEncodeData([...encodeData, encoded]);
+  };
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validationSchema,
+  });
+
+  // Form Change Handler
   const handleFormChange = (index: number, event: any) => {
     console.log(event.target.value, "value in form change");
     let data = [...protocolData.function_configs.inputs];
@@ -37,6 +102,7 @@ const AddProtocol = ({ data }: any) => {
 
   console.log({ rateMode });
 
+  // Token Toggle Handler
   const handleTokensToggle = (index: number) => {
     console.log({ index }, "in index toggle token");
     let data = [...protocolData.function_configs.inputs];
@@ -46,8 +112,6 @@ const AddProtocol = ({ data }: any) => {
 
   useEffect(() => {
     setProtocolData(data);
-
-    console.log("useEffect running");
   }, []);
 
   const encoder = useEncode();
@@ -65,63 +129,6 @@ const AddProtocol = ({ data }: any) => {
 
   console.log({ inputsData });
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    console.log("submit");
-    const savedData = {
-      protocol_id: unique_id,
-      name: data.name,
-      data: protocolData,
-    };
-    console.log({ savedData });
-
-    setSavedProtocols([...savedProtocols, savedData]);
-    setExchageItems([]);
-
-    // Saved Encoded Data
-
-    const protcoloData = [
-      ...inputsData
-        .map(({ amount, token, tokenList }: any) => {
-          const selectedToken = tokenList.find(
-            ({ symbol }: any) => symbol === token
-          );
-          const selectedAdress = selectedToken.address;
-          const amount256 = BigNumber.from(amount).mul(
-            BigNumber.from(10).pow(selectedToken.decimal)
-          );
-          return [selectedAdress, amount256];
-        })
-        .flat(),
-    ];
-
-    if (data.rateMode) {
-      protcoloData.push(rateMode);
-    }
-
-    const encoded = encoder(addresses.haaveAddress, methodName, protcoloData);
-    // console.log(
-    //   ...inputsData.map(({ amount, token, tokenList }: any) => {
-    //     const selectedToken = tokenList.find(
-    //       ({ symbol }: any) => symbol === token
-    //     );
-    //     const selectedAdress = selectedToken.address;
-    //     const amount256 = BigNumber.from(amount).mul(
-    //       BigNumber.from(10).pow(selectedToken.decimal)
-    //     );
-    //     return [selectedAdress, amount256];
-    //   }).flat(),
-    //   "data for encoding"
-    // );
-    console.log({ encoded }, "encoded data");
-
-    setEncodeData([...encodeData, encoded]);
-    // console.log(
-    //   ...inputsData.map(({ amount }: any) =>
-    //     BigNumber.from(amount).mul(BigNumber.from(10).pow(18))
-    //   ),
-  };
-
   //   "input data array"
   // );
 
@@ -131,24 +138,13 @@ const AddProtocol = ({ data }: any) => {
     console.log(value ? "Stalbe" : "Variable", "token type selection");
   };
   console.log(data.hasOwnProperty("isFlashloan"), "havefloadn loannan");
-  interface MyFormValues {
-    token: string;
-    amount: string;
-  }
-  const initialValues: MyFormValues = { token: "", amount: "" };
+
+  console.log(formik.values, "formik values .....");
 
   return (
-    <AddProtocolStyled className="position-relative">
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values, actions) => {
-          console.log({ values, actions });
-          alert(JSON.stringify(values, null, 2));
-          actions.setSubmitting(false);
-        }}
-        //  onSubmit={handleSubmit}
-      >
-        <Form>
+    <FormikProvider value={formik}>
+      <Form>
+        <AddProtocolStyled className="position-relative">
           <FaArrowAltCircleLeft className="back-icon" fontSize={26} />
           <div className="d-flex justify-content-center">
             <h6 className="text-center">
@@ -224,6 +220,8 @@ const AddProtocol = ({ data }: any) => {
                         tokens={tokenList}
                         handleFormChange={handleFormChange}
                         index={index}
+                        name={`token${index}`}
+                        formik={formik}
                         handleTokensToggle={handleTokensToggle}
                       />
                     </div>
@@ -238,14 +236,19 @@ const AddProtocol = ({ data }: any) => {
                     </span>
                   </Col>
                   <Col md={8}>
-                    <input
+                    {/* <input
                       type="number"
                       name="amount"
                       onChange={(e) => handleFormChange(index, e)}
                       placeholder="Amount"
                       className="w-100"
+                    /> */}
+                    <InputField
+                      name={`amount${index}`}
+                      type="number"
+                      placeholder="Amount"
                     />
-                     <Field id="firstName" name="firstName" placeholder="First Name" />
+
                     <div className="d-flex justify-content-end mt-4">
                       <button className="max-btn">Max</button>
                     </div>
@@ -308,9 +311,9 @@ const AddProtocol = ({ data }: any) => {
           >
             Set
           </button>
-        </Form>
-      </Formik>
-    </AddProtocolStyled>
+        </AddProtocolStyled>
+      </Form>
+    </FormikProvider>
   );
 };
 

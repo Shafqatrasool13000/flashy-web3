@@ -5,11 +5,14 @@ export type Save_Protocol_Type = {
   token: string;
   name: string;
 };
+
 export type Encode_Data = {
   encodeData: string[];
   setEncodeData: React.Dispatch<React.SetStateAction<string[]>>;
   savedProtocols: [];
-  setSavedProtocols:  React.Dispatch<React.SetStateAction<[] | Save_Protocol_Type[]>>;
+  setSavedProtocols: React.Dispatch<
+    React.SetStateAction<[] | Save_Protocol_Type[]>
+  >;
   setExchageItems: React.Dispatch<React.SetStateAction<Exchange_Items>>;
 };
 
@@ -25,3 +28,8 @@ export type SelectTokenProps = {
   setToken: React.Dispatch<React.SetStateAction<string>>;
   tokens: {};
 };
+
+export interface ProtocolInputs {
+  token: string;
+  amount: string;
+}
