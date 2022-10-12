@@ -6,20 +6,17 @@ import {
   FaExclamation,
   FaTrash,
 } from "react-icons/fa";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import EditProtocol from "./EditProtocol";
 import { ExchangerContext } from "../../layout/Create/Index";
-import { Icon } from '@iconify/react';
-
+import { Icon } from "@iconify/react";
 
 const SavedProtocols = () => {
-  const [editData, setEditData] = useState<any>();
+  const [editData, setEditData] = useState<any>(null);
   const [isEdit, setIsEdit] = useState<any>();
   const [editId, setEditId] = useState<any>();
 
   const { savedProtocols, setSavedProtocols } = useContext(ExchangerContext);
-
-  console.log({ savedProtocols });
 
   // Edit Handler
   const handleEdit = (
@@ -31,7 +28,6 @@ const SavedProtocols = () => {
     setEditId(index);
     setEditData({ protocol_id, name, data });
     setIsEdit(true);
-    console.log({ editData, isEdit, editId });
   };
 
   // Delete Handler
@@ -52,9 +48,8 @@ const SavedProtocols = () => {
             <div className="list">
               {savedProtocols?.map(
                 ({ protocol_id, data, name }: any, index: number) => (
-                  <>
+                  <div key={index}>
                     <div
-                      key={index}
                       className={`mt-2 box ${
                         index === editId ? "d-none" : "d-block"
                       }`}
@@ -69,9 +64,10 @@ const SavedProtocols = () => {
                           <FaEdit
                             className="cursor-pointer"
                             fontSize={20}
-                            onClick={() =>
-                              handleEdit(protocol_id, data, name, index)
-                            }
+                            onClick={() => {
+                              handleEdit(protocol_id, data, name, index);
+                              setEditData({ protocol_id, name, data });
+                            }}
                           />
                           <FaTrash
                             className="ms-3 cursor-pointer"
@@ -81,11 +77,20 @@ const SavedProtocols = () => {
                         </div>
                       </div>
                       {data?.function_configs?.inputs.map(
-                        ({ amount, token,tokenList }: any, index: number) => (
+                        ({ amount, token, tokenList }: any, index: number) => (
                           <div key={index}>
                             <div className="d-flex justify-content-between">
                               <div className="chain d-flex align-items-center  mb-2">
-                              <Icon icon={tokenList?.find(({symbol}: any) => symbol === token)?.icon} width="24" height="24" color="white" />
+                                <Icon
+                                  icon={
+                                    tokenList?.find(
+                                      ({ symbol }: any) => symbol === token
+                                    )?.icon
+                                  }
+                                  width="24"
+                                  height="24"
+                                  color="white"
+                                />
                                 <p className="token ms-2 mt-1">{token}</p>
                               </div>
                               <p className="price ms-2 mt-1">{amount}</p>
@@ -166,14 +171,13 @@ const SavedProtocols = () => {
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
                 )
               )}
             </div>
           )}
         </SavedProtocolStyled>
       </div>
-      <div></div>
       <div className={`${isEdit ? "d-block" : "d-none"}`}>
         <EditProtocol
           data={editData}

@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="create" element={<Create />} />
-        <Route path="create/:tokensId" element={<Create />} />
+        <Route path="protocol/:tokensId" element={<Create />} />
         <Route path="strategies" element={<Strategies />} />
         <Route path="opportunities" element={<Opportunities />} />
       </Routes>

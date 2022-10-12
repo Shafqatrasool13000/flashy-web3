@@ -89,7 +89,7 @@ border: 1px solid rgb(255,255,255,0.4);
 .input-section{
 input{
 border: none;
-background: transparent;
+background-color: transparent;
 text-align: end;
 border-bottom: .5px solid rgb(255,255,255,0.3);
 color: white;
