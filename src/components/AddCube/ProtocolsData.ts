@@ -56,30 +56,29 @@ const avaeV2 = [
             {
               symbol: "AAVE",
               icon: "cryptocurrency:zrx",
-              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              address: "0x346A59146b9b4a77100D369a3d18E8007A9F46a6",
               decimal: 10,
             },
             {
               symbol: "AMPL",
               icon: "cryptocurrency:zilla",
-              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              address: "0xd46ba6d942050d489dbd938a2c909a5d5039a161",
               decimal: 7,
             },
             {
               symbol: "BAL",
               icon: "cryptocurrency:zil",
-              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              address: "0xba100000625a3754423978a60c9317c58a424e3D",
               decimal: 14,
             },
             {
               symbol: "BAT",
               icon: "cryptocurrency:xas",
-              address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+              address: "0x0D8775F648430679A709E98d2b0Cb6250d2887EF",
               decimal: 12,
             },
           ],
         },
-       
       ],
       outputs: [],
     },
@@ -159,7 +158,6 @@ const avaeV2 = [
             },
           ],
         },
-       
       ],
       outputs: [],
     },
@@ -181,9 +179,8 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
-    rateMode:true,
+    rateMode: true,
     function_configs: {
-
       inputs: [
         {
           token: "",
@@ -236,8 +233,8 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
-    onBehalfOf:true,
-    rateMode:true,
+    onBehalfOf: true,
+    rateMode: true,
     function_configs: {
       inputs: [
         {
@@ -275,8 +272,6 @@ const avaeV2 = [
     },
 
     protocol_configs: {
-
-      
       tokenlist: [],
       fee: 12,
       prices: 12,
@@ -294,7 +289,7 @@ const avaeV2 = [
     tag: "",
     protocolName: "",
     protocolLogo: "",
-    isFlashloan:true,
+    isFlashloan: true,
     function_configs: {
       inputs: [
         {

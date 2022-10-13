@@ -19,14 +19,16 @@ import { Icon } from "@iconify/react";
 import { useFormik, FormikProvider, Form, FieldArray } from "formik";
 import * as Yup from "yup";
 import InputField from "../InputField/InputField";
+import { GetBalance } from "../../hooks/GetBalance";
 
 const AddProtocol = ({ data }: any) => {
   const [protocolData, setProtocolData] = useState<any>({});
   const [rateMode, setRateMode] = useState(2);
+  // const [balance, setBalance] = useState("");
   const { address } = useAccount();
   const unique_id = uuid();
 
-  console.log({rateMode})
+  console.log({ rateMode });
 
   interface initialValuesInterface {
     inputsData: { amount: string; token: string }[];
@@ -65,7 +67,7 @@ const AddProtocol = ({ data }: any) => {
       })
     ),
   });
-
+  // console.log({ balance });
   // OnSubmitHandler
   const onSubmit = () => {
     const updatedData = {
@@ -297,7 +299,12 @@ const AddProtocol = ({ data }: any) => {
                           />
 
                           <div className="d-flex justify-content-end mt-4">
-                            <button className="max-btn">Max</button>
+                            <GetBalance token={
+                                      tokenList?.find(
+                                        ({ symbol }: any) => symbol === token
+                                      )?.address
+                                    }/>
+                              <button className="max-btn"> Max</button>
                           </div>
                           {data.rateMode && (
                             <RateModeStyled>
