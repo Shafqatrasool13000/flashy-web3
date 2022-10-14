@@ -14,7 +14,7 @@ import SelectToken from "../SelectToken/Index";
 import { AddProtocolStyled, RateModeStyled } from "./style";
 import { v4 as uuid } from "uuid";
 import { Switch } from "antd";
-import { useAccount } from "wagmi";
+import { useNetwork, useAccount } from "wagmi";
 import { Icon } from "@iconify/react";
 import { useFormik, FormikProvider, Form, FieldArray } from "formik";
 import * as Yup from "yup";
@@ -24,9 +24,13 @@ import { GetBalance } from "../../hooks/GetBalance";
 const AddProtocol = ({ data }: any) => {
   const [protocolData, setProtocolData] = useState<any>({});
   const [rateMode, setRateMode] = useState(2);
-  // const [balance, setBalance] = useState("");
   const { address } = useAccount();
   const unique_id = uuid();
+  const { chain, chains } = useNetwork();
+  console.log(
+    data?.function_configs?.inputs[chain?.id as number],
+    "data of inputs"
+  );
 
   console.log({ rateMode });
 
@@ -36,13 +40,19 @@ const AddProtocol = ({ data }: any) => {
 
   // Intial Values
   const initialValues: initialValuesInterface = {
-    inputsData: data?.function_configs?.inputs?.map(
-      ({ token, amount }: any) => {
-        return { token: token, amount: amount };
-      }
-    ),
+    inputsData:
+      chain?.id &&
+      data?.function_configs?.inputs[chain?.id as number]?.map(
+        ({ token, amount }: any) => {
+          return { token: token, amount: amount };
+        }
+      ),
   };
 
+  console.log(
+    data?.function_configs?.inputs[chain?.id as number],
+    "data in testnet"
+  );
   // data?.function_configs?.inputs?.map(
   //   ({ token, amount }: any) => {
   //     return { token: token, amount: amount };
@@ -74,11 +84,15 @@ const AddProtocol = ({ data }: any) => {
       ...data,
       function_configs: {
         ...data.function_configs,
-        inputs: data.function_configs.inputs?.map((obj: any, index: any) => ({
-          ...obj,
-          token: formik.values.inputsData[index].token,
-          amount: formik.values.inputsData[index].amount,
-        })),
+        inputs: {
+          [chain?.id.toString() as string]: data.function_configs.inputs?.[
+            chain?.id.toString() as string
+          ].map((obj: any, index: any) => ({
+            ...obj,
+            token: formik.values.inputsData[index].token,
+            amount: formik.values.inputsData[index].amount,
+          })),
+        },
       },
     };
 
@@ -100,7 +114,7 @@ const AddProtocol = ({ data }: any) => {
     //       );
     //       const selectedAdress = selectedToken.address;
     //       const amount256 = BigNumber.from(amount).mul(
-    //         BigNumber.from(10).pow(selectedToken.decimal)
+    //         BigNumber.from(10).pow(selectedToken.decimals)
     //       );
     //       return [selectedAdress, amount256];
     //     })
@@ -122,29 +136,57 @@ const AddProtocol = ({ data }: any) => {
     validationSchema,
   });
 
-  // Form Change Handler
-  const handleFormChange = (index: number, event: any) => {
-    let data = [...protocolData.function_configs.inputs];
-    data[index][event.target.name] = event.target.value;
-    setProtocolData({
-      ...protocolData,
-      function_configs: { inputs: data },
-    });
-  };
-
   // Token Toggle Handler
   const handleTokensToggle = (index: number) => {
-    let data = [...protocolData.function_configs.inputs];
+    let data = { ...protocolData.function_configs.inputs[chain?.id as number] };
     data[index].showTokens = !data[index].showTokens;
     setProtocolData({
       ...protocolData,
-      function_configs: { inputs: data },
+      protocolData: {
+        function_configs: {
+          inputs: { [chain?.id.toString() as string]: data },
+        },
+      },
     });
   };
 
+  if (chain?.id) {
+    for (
+      let i = 0;
+      i <
+      data?.data?.function_configs?.inputs[chain?.id.toString() as string]
+        .length;
+      i++
+    ) {
+      console.log(
+        {
+          amount:
+            data?.data?.function_configs?.inputs[
+              chain?.id.toString() as string
+            ][i].amount,
+          token:
+            data?.data?.function_configs?.inputs[
+              chain?.id.toString() as string
+            ][i].token,
+        },
+        "in set intital values"
+      );
+      formik.initialValues.inputsData.push({
+        amount:
+          data?.data?.function_configs?.inputs[chain?.id.toString() as string][
+            i
+          ].amount,
+        token:
+          data?.data?.function_configs?.inputs[chain?.id.toString() as string][
+            i
+          ].token,
+      });
+    }
+  }
+
   useEffect(() => {
     setProtocolData(data);
-  }, []);
+  }, [data]);
 
   const encoder = useEncode();
   const methodName = data.name.toLowerCase();
@@ -165,6 +207,15 @@ const AddProtocol = ({ data }: any) => {
   const handleSwitch = (value: any) => {
     setRateMode(value ? 1 : 2);
   };
+
+  console.log(chain?.id + "connected to");
+  if (chain?.id === 5) {
+    console.log("It 's gorelli");
+  } else if (chain?.id === 1) {
+    console.log("It 's ethereum");
+  }
+
+  console.log(formik.values, "formik values");
 
   return (
     <FormikProvider value={formik}>
@@ -196,7 +247,7 @@ const AddProtocol = ({ data }: any) => {
           )}
           <FieldArray name="tickets">
             {() =>
-              data.function_configs.inputs.map(
+              data.function_configs.inputs[chain?.id as number].map(
                 (
                   { token, amount, showTokens, tokenList }: any,
                   index: number
@@ -213,41 +264,24 @@ const AddProtocol = ({ data }: any) => {
                     <div key={index} className="input-section mt-3">
                       <Row className="align-items-center">
                         <Col md={4}>
-                          <p
-                            className="input"
-                            // onClick={() =>
-                            //   console.log(
-                            //     { ticketErrors, ticketTouched },
-                            //     "ticketetErros.............."
-                            //   )
-                            // }
-                          >
-                            input
-                          </p>
+                          <p className="input">input</p>
                           <div className="d-flex align-items-center mb-2">
                             <h6 className="position-relative">
                               <span className="me-2">
-                                {!token ? (
-                                  <Icon
-                                    icon="cryptocurrency:zrx"
-                                    width="24"
-                                    height="24"
-                                    color="white"
-                                  />
-                                ) : (
-                                  <Icon
-                                    icon={
-                                      tokenList?.find(
-                                        ({ symbol }: any) => symbol === token
-                                      )?.icon
-                                    }
-                                    width="24"
-                                    height="24"
-                                    color="white"
-                                  />
-                                )}
+                                <Icon
+                                  icon={
+                                    tokenList?.find(
+                                      ({ symbol }: any) =>
+                                        symbol ===
+                                        formik.values.inputsData[index].token
+                                    )?.icon
+                                  }
+                                  width="24"
+                                  height="24"
+                                  color="white"
+                                />
                               </span>
-                              {!token ? "AAVE" : token}
+                              {formik.values.inputsData[index].token}
                               <span>
                                 <FaCaretDown
                                   className="more-icon"
@@ -267,7 +301,6 @@ const AddProtocol = ({ data }: any) => {
                             <SelectToken
                               showTokens={showTokens}
                               tokens={tokenList}
-                              handleFormChange={handleFormChange}
                               index={index}
                               name={`inputsData.${index}.token`}
                               formik={formik}
@@ -285,13 +318,6 @@ const AddProtocol = ({ data }: any) => {
                           </span>
                         </Col>
                         <Col md={8}>
-                          {/* <input
-                      type="number"
-                      name="amount"
-                      onChange={(e) => handleFormChange(index, e)}
-                      placeholder="Amount"
-                      className="w-100"
-                    /> */}
                           <InputField
                             name={`inputsData.${index}.amount`}
                             type="number"
@@ -299,12 +325,14 @@ const AddProtocol = ({ data }: any) => {
                           />
 
                           <div className="d-flex justify-content-end mt-4">
-                            <GetBalance token={
-                                      tokenList?.find(
-                                        ({ symbol }: any) => symbol === token
-                                      )?.address
-                                    }/>
-                              <button className="max-btn"> Max</button>
+                            <GetBalance
+                              token={
+                                tokenList?.find(
+                                  ({ symbol }: any) => symbol === token
+                                )?.address
+                              }
+                            />
+                            <button className="max-btn"> Max</button>
                           </div>
                           {data.rateMode && (
                             <RateModeStyled>

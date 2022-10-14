@@ -9,7 +9,6 @@ const Index: React.FC<any> = ({
   showTokens,
   handleTokensToggle,
   tokens,
-  handleFormChange,
   index,
   name,
   formik,
@@ -38,7 +37,6 @@ const Index: React.FC<any> = ({
         onBlur={() => handleTokensToggle(index)}
         open={showTokens}
         onChange={(value) => {
-          handleFormChange(index, { target: { value, name: "token" } });
           formik.setFieldValue(name, value);
         }}
         onSelect={() => tokenInputRemove()}

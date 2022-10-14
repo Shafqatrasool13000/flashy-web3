@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import EditProtocol from "./EditProtocol";
 import { ExchangerContext } from "../../layout/Create/Index";
 import { Icon } from "@iconify/react";
+import { useNetwork } from "wagmi";
 
 const SavedProtocols = () => {
   const [editData, setEditData] = useState<any>(null);
@@ -17,6 +18,7 @@ const SavedProtocols = () => {
   const [editId, setEditId] = useState<any>();
 
   const { savedProtocols, setSavedProtocols } = useContext(ExchangerContext);
+  const { chain, chains } = useNetwork();
 
   // Edit Handler
   const handleEdit = (
@@ -76,7 +78,9 @@ const SavedProtocols = () => {
                           />
                         </div>
                       </div>
-                      {data?.function_configs?.inputs.map(
+                      {data?.function_configs?.inputs[
+                        chain?.id.toString() as string
+                      ].map(
                         ({ amount, token, tokenList }: any, index: number) => (
                           <div key={index}>
                             <div className="d-flex justify-content-between">
@@ -161,11 +165,19 @@ const SavedProtocols = () => {
                             <div className="chain d-flex align-items-center">
                               <FaEthereum fontSize={24} />
                               <p className="token ms-2 mt-1">
-                                {data?.function_configs.inputs[index].token}
+                                {
+                                  data?.function_configs.inputs[
+                                    chain?.id.toString() as string
+                                  ][index].token
+                                }
                               </p>
                             </div>
                             <p className="price ms-2 mt-1">
-                              {data?.function_configs.inputs[index].amount}
+                              {
+                                data?.function_configs.inputs[
+                                  chain?.id.toString() as string
+                                ][index].amount
+                              }
                             </p>
                           </div>
                         </div>
