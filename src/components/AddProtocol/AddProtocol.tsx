@@ -7,11 +7,11 @@ import {
   FaCaretDown,
   FaEthereum,
 } from "react-icons/fa";
-import { useEncode } from "../../hooks/useEncode";
+// import { useEncode } from "../../hooks/useEncode";
 // import { useExecMock } from "../../hooks/useExecMock";
 import { ExchangerContext } from "../../layout/Create/Index";
 import SelectToken from "../SelectToken/Index";
-import { AddProtocolStyled, RateModeStyled } from "./style";
+import { AddProtocolStyled, RateModeStyled } from "../AddCube/style";
 import { v4 as uuid } from "uuid";
 import { Switch } from "antd";
 import { useNetwork, useAccount } from "wagmi";
@@ -26,13 +26,7 @@ const AddProtocol = ({ data }: any) => {
   const [rateMode, setRateMode] = useState(2);
   const { address } = useAccount();
   const unique_id = uuid();
-  const { chain, chains } = useNetwork();
-  console.log(
-    data?.function_configs?.inputs[chain?.id as number],
-    "data of inputs"
-  );
-
-  console.log({ rateMode });
+  const { chain } = useNetwork();
 
   interface initialValuesInterface {
     inputsData: { amount: string; token: string }[];
@@ -49,10 +43,6 @@ const AddProtocol = ({ data }: any) => {
       ),
   };
 
-  console.log(
-    data?.function_configs?.inputs[chain?.id as number],
-    "data in testnet"
-  );
   // data?.function_configs?.inputs?.map(
   //   ({ token, amount }: any) => {
   //     return { token: token, amount: amount };
@@ -77,8 +67,9 @@ const AddProtocol = ({ data }: any) => {
       })
     ),
   });
-  // console.log({ balance });
+
   // OnSubmitHandler
+
   const onSubmit = () => {
     const updatedData = {
       ...data,
@@ -188,34 +179,23 @@ const AddProtocol = ({ data }: any) => {
     setProtocolData(data);
   }, [data]);
 
-  const encoder = useEncode();
-  const methodName = data.name.toLowerCase();
+  // const encoder = useEncode();
 
   const {
-    encodeData,
-    setEncodeData,
+    // encodeData,
+    // setEncodeData,
     savedProtocols,
     setSavedProtocols,
     setExchageItems,
   } = useContext(ExchangerContext);
 
   // const exactMock = useExecMock();
-
   //   "input data array"
   // );
 
   const handleSwitch = (value: any) => {
     setRateMode(value ? 1 : 2);
   };
-
-  console.log(chain?.id + "connected to");
-  if (chain?.id === 5) {
-    console.log("It 's gorelli");
-  } else if (chain?.id === 1) {
-    console.log("It 's ethereum");
-  }
-
-  console.log(formik.values, "formik values");
 
   return (
     <FormikProvider value={formik}>
@@ -239,7 +219,7 @@ const AddProtocol = ({ data }: any) => {
                 name="amount"
                 id="address"
                 value={address}
-                onChange={(e) => console.log("address")}
+                // onChange={(e) => console.log("address")}
                 placeholder="ENS or Address"
                 className="w-100 mt-2 meta-address"
               />
@@ -247,7 +227,7 @@ const AddProtocol = ({ data }: any) => {
           )}
           <FieldArray name="tickets">
             {() =>
-              data.function_configs.inputs[chain?.id as number].map(
+              data?.function_configs?.inputs[chain?.id as number]?.map(
                 (
                   { token, amount, showTokens, tokenList }: any,
                   index: number

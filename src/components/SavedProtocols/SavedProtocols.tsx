@@ -7,7 +7,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
-import EditProtocol from "./EditProtocol";
+import EditProtocol from "../EditProtocols/EditProtocol";
 import { ExchangerContext } from "../../layout/Create/Index";
 import { Icon } from "@iconify/react";
 import { useNetwork } from "wagmi";
@@ -84,7 +84,7 @@ const SavedProtocols = () => {
                         ({ amount, token, tokenList }: any, index: number) => (
                           <div key={index}>
                             <div className="d-flex justify-content-between">
-                              <div className="chain d-flex align-items-center  mb-2">
+                              <div className="chain d-flex align-items-center mb-2">
                                 <Icon
                                   icon={
                                     tokenList?.find(
@@ -106,8 +106,10 @@ const SavedProtocols = () => {
                                   : "d-block"
                               }`}
                             >
-                              <div className="bottom-border" />
-                              <FaArrowDown fontSize={20} />
+                              <div className="d-flex align-items-center">
+                                <FaArrowDown fontSize={20} className="ms-2" />
+                                <div className="bottom-border" />
+                              </div>
                             </div>
                           </div>
                         )

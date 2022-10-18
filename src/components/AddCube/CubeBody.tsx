@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { CubeBodyProps } from "../../utils/types";
 import HeadBar from "./HeadBar";
-import { protocolsData } from "./ProtocolsData";
+import { protocolsData } from "../../utils/ProtocolsData/ProtocolsData";
 import { CubeBodyStyled } from "./style";
 
 const CubeBody: React.FC<CubeBodyProps> = ({ getExchangeBox }) => {

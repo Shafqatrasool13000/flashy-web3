@@ -4,11 +4,11 @@ import Create from "../../components/Create/Index";
 import { CreateLayoutStyled } from "./style";
 import AddCube from "../../components/AddCube/Index";
 import CubeBody from "../../components/AddCube/CubeBody";
-import AddProtocol from "../../components/AddCube/AddProtocol";
+import AddProtocol from "../../components/AddProtocol/AddProtocol";
 import { Col, Container, Row } from "react-bootstrap";
 
 import { Encode_Data, Exchange_Items } from "../../utils/types";
-import SavedProtocols from "../../components/SavedProtocol/SavedProtocols";
+import SavedProtocols from "../../components/SavedProtocols/SavedProtocols";
 import AddProtocol2 from "../../components/AddCube/AddProtocol2";
 
 export const ExchangerContext = createContext<any>({} as Encode_Data);
@@ -137,7 +137,7 @@ const Index = () => {
           </Row>
         </Container>
         <AddCube addCubeModal={addCubeModal} setAddCubeModal={setAddCubeModal}>
-        <CubeBody getExchangeBox={getExchangeBox} />
+          <CubeBody getExchangeBox={getExchangeBox} />
         </AddCube>
       </CreateLayoutStyled>
     </ExchangerContext.Provider>

@@ -7,20 +7,23 @@ import {
   FaCaretDown,
   FaEthereum,
 } from "react-icons/fa";
-import { useEncode } from "../../hooks/useEncode";
 import { useExecMock } from "../../hooks/useExecMock";
 import { ExchangerContext } from "../../layout/Create/Index";
 import SelectToken from "../SelectToken/Index";
-import { EditProtocolStyled } from "./style";
 import { Icon } from "@iconify/react";
-import { useFormik, FormikProvider, Form, FieldArray } from "formik";
+import { useFormik, FormikProvider, Form } from "formik";
 import * as Yup from "yup";
 import InputField from "../InputField/InputField";
+import EditProtocolStyled from "./style";
+import { useNetwork } from "wagmi";
 
 const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
   console.log({ data }, "data in edit Handler");
 
   const [protocolData, setProtocolData] = useState<any>([]);
+  const { chain } = useNetwork();
+
+  console.log({ protocolData });
 
   interface initialValuesInterface {
     inputsData: { amount: string; token: string }[];
@@ -47,21 +50,22 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
       })
     ),
   });
-  const handleFormChange = (index: number, event: any) => {
-    let data = [...protocolData.data.function_configs.inputs];
-    data[index][event.target.name] = event.target.value;
-    setProtocolData({
-      ...protocolData,
-      data: { function_configs: { inputs: data } },
-    });
-  };
 
+  // Token Toggle Handler
   const handleTokensToggle = (index: number) => {
-    let data = [...protocolData.data.function_configs.inputs];
+    let data = {
+      ...protocolData.data.function_configs.inputs[chain?.id as number],
+    };
     data[index].showTokens = !data[index].showTokens;
     setProtocolData({
       ...protocolData,
-      data: { function_configs: { inputs: data } },
+      protocolData: {
+        data: {
+          function_configs: {
+            inputs: { [chain?.id.toString() as string]: data },
+          },
+        },
+      },
     });
   };
 
@@ -85,14 +89,16 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
     const updatedData = {
       ...data,
       function_configs: {
-        ...data.function_configs,
-        inputs: data.data.function_configs.inputs?.map(
-          (obj: any, index: any) => ({
+        ...data.data.function_configs,
+        inputs: {
+          [chain?.id.toString() as string]: data.data.function_configs.inputs?.[
+            chain?.id.toString() as string
+          ].map((obj: any, index: any) => ({
             ...obj,
             token: formik.values.inputsData[index].token,
             amount: formik.values.inputsData[index].amount,
-          })
-        ),
+          })),
+        },
       },
     };
     const editableDataIndex = savedProtocols.findIndex(
@@ -119,10 +125,20 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
   });
 
   if (data !== null) {
-    for (let i = 0; i < data?.data?.function_configs?.inputs.length; i++) {
+    console.log(
+      data?.data?.function_configs?.inputs[chain?.id as number].length,
+      "data is not null"
+    );
+    for (
+      let i = 0;
+      i < data?.data?.function_configs?.inputs[chain?.id as number].length;
+      i++
+    ) {
       formik.initialValues.inputsData.push({
-        amount: data?.data?.function_configs?.inputs[i].amount,
-        token: data?.data?.function_configs?.inputs[i].token,
+        amount:
+          data?.data?.function_configs?.inputs[chain?.id as number][i].amount,
+        token:
+          data?.data?.function_configs?.inputs[chain?.id as number][i].token,
       });
     }
   }
@@ -143,9 +159,13 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
             </h6>
           </div>
           <div className="d-flex justify-content-center">
-            <button className="method-btn w-100 mt-3 fs-6">{data?.name}</button>
+            <button className="method-btn w-100 mt-3 fs-6">
+              {data?.data?.name}
+            </button>
           </div>
-          {protocolData?.data?.function_configs?.inputs?.map(
+          {protocolData?.data?.function_configs?.inputs[
+            chain?.id as number
+          ]?.map(
             ({ token, amount, showTokens, tokenList }: any, index: number) => (
               <div key={index} className="input-section mt-3">
                 <Row className="align-items-center">
@@ -154,27 +174,20 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
                     <div className="d-flex align-items-center">
                       <h6 className="position-relative">
                         <span className="me-2">
-                          {!token ? (
-                            <Icon
-                              icon="cryptocurrency:zrx"
-                              width="24"
-                              height="24"
-                              color="white"
-                            />
-                          ) : (
-                            <Icon
-                              icon={
-                                tokenList?.find(
-                                  ({ symbol }: any) => symbol === token
-                                )?.icon
-                              }
-                              width="24"
-                              height="24"
-                              color="white"
-                            />
-                          )}
+                          <Icon
+                            icon={
+                              tokenList?.find(
+                                ({ symbol }: any) =>
+                                  symbol ===
+                                  formik.values.inputsData[index].token
+                              )?.icon
+                            }
+                            width="24"
+                            height="24"
+                            color="white"
+                          />
                         </span>
-                        {!token ? "AAVE" : token}
+                        {formik.values.inputsData[index].token}
                         <span>
                           <FaCaretDown
                             className="more-icon"
@@ -194,11 +207,9 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
                       <SelectToken
                         showTokens={showTokens}
                         tokens={tokenList}
-                        handleFormChange={handleFormChange}
                         index={index}
-                        defaultToken={token}
-                        formik={formik}
                         name={`inputsData.${index}.token`}
+                        formik={formik}
                         handleTokensToggle={handleTokensToggle}
                       />
                     </div>
@@ -207,14 +218,6 @@ const EditProtocol = ({ data, setIsEdit, setEditData, setEditId }: any) => {
                     </span>
                   </Col>
                   <Col md={8}>
-                    {/* <input
-                    type="number"
-                    name="amount"
-                    onChange={(e) => handleFormChange(index, e)}
-                    placeholder="Amount"
-                    className="w-100"
-                    value={amount}
-                  /> */}
                     <InputField
                       name={`inputsData.${index}.amount`}
                       type="number"

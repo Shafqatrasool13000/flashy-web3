@@ -11,7 +11,6 @@ interface GetBalanceInterface {
 export const GetBalance: React.FC<GetBalanceInterface> = ({ token }: any) => {
   const [balance, setBalance] = useState("");
   const { address } = useAccount();
-  console.log(token, "token in getBalance");
 
   const web3Provider = new ethers.providers.Web3Provider(ethereum);
 
@@ -19,7 +18,6 @@ export const GetBalance: React.FC<GetBalanceInterface> = ({ token }: any) => {
     const contract = new ethers.Contract(token, abi, web3Provider);
     const balance = await contract.balanceOf(address);
     const balanceInEthers = ethers.utils.formatEther(balance);
-    console.log({ balance }, "balance in getBalance method");
     setBalance(balanceInEthers);
   })();
 
